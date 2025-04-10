@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public class PessoaRepositoryImp implements PessoaRepository {
 
-    private JdbcClient jdbcClient;
+    private final JdbcClient jdbcClient;
 
     public PessoaRepositoryImp(JdbcClient jdbcClient) {
         this.jdbcClient = jdbcClient;
@@ -20,7 +20,7 @@ public class PessoaRepositoryImp implements PessoaRepository {
     @Override
     public Optional<Pessoa> findById(Long id) {
         return this.jdbcClient
-                .sql("SELECT * FROM pessoa WHERE id = :id")
+                .sql("SELECT * FROM pessoas WHERE id = :id")
                 .param("id",id)
                 .query(Pessoa.class)
                 .optional();
@@ -30,7 +30,7 @@ public class PessoaRepositoryImp implements PessoaRepository {
     @Override
     public List<Pessoa> findAll(int size, int offset) {
         return this.jdbcClient
-                .sql("SELECT * FROM pessoa LIMIT :size OFFSET :offset")
+                .sql("SELECT * FROM pessoas LIMIT :size OFFSET :offset")
                 .param("size", size)
                 .param("offset", offset)
                 .query(Pessoa.class)
@@ -51,7 +51,8 @@ public class PessoaRepositoryImp implements PessoaRepository {
     @Override
     public Integer update(Pessoa pessoa, Long id) {
         return this.jdbcClient
-                .sql("UPDATE pessoas SET nome = :nome, cpf = :cpf, telefone = :telefone, email = :email WHERE id = :id ")
+                .sql("UPDATE pessoas SET nome = :nome, cpf = :cpf, telefone = :telefone, email = :email WHERE id = :id")
+                .param("id", id)
                 .param("nome", pessoa.getNome())
                 .param("cpf", pessoa.getCpf())
                 .param("telefone", pessoa.getTelefone())
