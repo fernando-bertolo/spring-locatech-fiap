@@ -37,14 +37,14 @@ public class VeiculoService {
     public void updateVeiculo(Veiculo veiculo, Long id){
         var update = this.veiculoRepository.update(veiculo, id);
         if(update == 0){
-            throw new RuntimeException("Veículo não encontrado");
+            throw new ResourceNotFoundException("Veículo não encontrado");
         }
     }
 
     public void deleteVeiculo(Long id){
         var delete = this.veiculoRepository.delete(id);
         if(delete == 0){
-            throw new RuntimeException("Veículo não encontrado");
+            throw new ResourceNotFoundException("Veículo não encontrado");
         }
     }
 
