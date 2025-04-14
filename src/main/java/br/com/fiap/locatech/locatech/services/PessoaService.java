@@ -1,5 +1,6 @@
 package br.com.fiap.locatech.locatech.services;
 
+import br.com.fiap.locatech.locatech.dtos.PessoaRequestDTO;
 import br.com.fiap.locatech.locatech.entities.Pessoa;
 import br.com.fiap.locatech.locatech.repositories.PessoaRepository;
 import br.com.fiap.locatech.locatech.services.exceptions.ResourceNotFoundException;
@@ -27,8 +28,9 @@ public class PessoaService {
                 .orElseThrow(() -> new ResourceNotFoundException("Pessoa não encontrada!")));
     }
 
-    public void savePessoa(Pessoa pessoa) {
-        this.pessoaRepository.save(pessoa);
+    public void savePessoa(PessoaRequestDTO pessoa) {
+        var pessoaEntity = new Pessoa(pessoa);
+        this.pessoaRepository.save(pessoaEntity);
     }
 
     public void updatePessoa(Pessoa pessoa, Long id) {

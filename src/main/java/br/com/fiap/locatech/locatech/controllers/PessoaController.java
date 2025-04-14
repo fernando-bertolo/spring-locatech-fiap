@@ -1,7 +1,9 @@
 package br.com.fiap.locatech.locatech.controllers;
 
+import br.com.fiap.locatech.locatech.dtos.PessoaRequestDTO;
 import br.com.fiap.locatech.locatech.entities.Pessoa;
 import br.com.fiap.locatech.locatech.services.PessoaService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +48,7 @@ public class PessoaController {
 
     @PostMapping
     public ResponseEntity<Void> savePessoa(
-            @RequestBody Pessoa pessoa
+           @Valid @RequestBody PessoaRequestDTO pessoa
     ) {
         logger.info("POST -> /pessoas/");
         this.pessoaService.savePessoa(pessoa);
