@@ -38,6 +38,15 @@ public class PessoaRepositoryImp implements PessoaRepository {
     }
 
     @Override
+    public Optional<Pessoa> findByCpf(String cpf) {
+        return this.jdbcClient
+                .sql("SELECT * FROM pessoas WHERE cpf = :cpf")
+                .param("cpf", cpf)
+                .query(Pessoa.class)
+                .optional();
+    }
+
+    @Override
     public Integer save(Pessoa pessoa) {
         return this.jdbcClient
                 .sql("INSERT INTO pessoas (nome, cpf, telefone, email) VALUES (:nome, :cpf, :telefone, :email)")
@@ -67,4 +76,6 @@ public class PessoaRepositoryImp implements PessoaRepository {
                 .param("id", id)
                 .update();
     }
+
+
 }

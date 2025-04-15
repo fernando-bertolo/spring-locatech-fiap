@@ -1,7 +1,9 @@
 package br.com.fiap.locatech.locatech.controllers.handlers;
 
+import br.com.fiap.locatech.locatech.dtos.ResourceConflictDTO;
 import br.com.fiap.locatech.locatech.dtos.ResourceNotFoundDto;
 import br.com.fiap.locatech.locatech.dtos.ValidationErrorDTO;
+import br.com.fiap.locatech.locatech.services.exceptions.ResourceConflictException;
 import br.com.fiap.locatech.locatech.services.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,5 +31,11 @@ public class ControllerExceptionHandler {
             errors.add(error.getField() + ": " + error.getDefaultMessage());
         }
         return ResponseEntity.status(status.value()).body(new ValidationErrorDTO(errors, status.value()));
+    }
+
+    @ExceptionHandler(ResourceConflictException.class)
+    public ResponseEntity<ResourceConflictDTO> handlerResourceConflictException(ResourceConflictException e) {
+        var status = HttpStatus.CONFLICT;
+        return ResponseEntity.status(status.value()).body(new ResourceConflictDTO(e.getMessage(), status.value()));
     }
 }

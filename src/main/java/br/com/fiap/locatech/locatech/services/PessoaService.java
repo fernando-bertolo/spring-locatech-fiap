@@ -3,6 +3,7 @@ package br.com.fiap.locatech.locatech.services;
 import br.com.fiap.locatech.locatech.dtos.PessoaRequestDTO;
 import br.com.fiap.locatech.locatech.entities.Pessoa;
 import br.com.fiap.locatech.locatech.repositories.PessoaRepository;
+import br.com.fiap.locatech.locatech.services.exceptions.ResourceConflictException;
 import br.com.fiap.locatech.locatech.services.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +29,17 @@ public class PessoaService {
                 .orElseThrow(() -> new ResourceNotFoundException("Pessoa não encontrada!")));
     }
 
+    public Optional<Pessoa> findPessoaByCpf (String cpf) {
+        return this.pessoaRepository.findByCpf(cpf);
+    }
+
     public void savePessoa(PessoaRequestDTO pessoa) {
         var pessoaEntity = new Pessoa(pessoa);
+        var existPessoa = this.findPessoaByCpf(pessoa.cpf());
+
+        if(existPessoa.isPresent()) {
+            throw new ResourceConflictException("Este CPF já esta cadastrado!!");
+        }
         this.pessoaRepository.save(pessoaEntity);
     }
 
