@@ -60,6 +60,13 @@ public class AluguelService {
     }
 
     public void updateAluguel(Aluguel aluguel, Long id) {
+        var existPessoa = this.pessoaRepository.findById(aluguel.getPessoaId());
+        var existVeiculo = this.veiculoRepository.findById(aluguel.getVeiculoId());
+
+        if(existPessoa.isEmpty() || existVeiculo.isEmpty()){
+            throw new ResourceNotFoundException("Verifique se o veículo ou pessoa estão disponíveis para o aluguel");
+        }
+
         var update = this.aluguelRepository.update(aluguel, id);
         if(update == 0) {
             throw new ResourceNotFoundException("Aluguel não encontrado");

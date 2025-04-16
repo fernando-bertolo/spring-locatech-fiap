@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/veiculos")
+@RequestMapping("/v1/veiculos")
 @Tag(name = "Veículo", description = "Controller para crud de veículos")
 public class VeiculoController {
     private static final Logger logger = LoggerFactory.getLogger(VeiculoController.class);
